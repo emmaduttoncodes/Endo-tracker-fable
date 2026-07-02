@@ -13,8 +13,8 @@ export default defineConfig({
         short_name: 'Endo',
         description:
           'Private endometriosis symptom, cycle and medical record tracker. All data stays on your device.',
-        theme_color: '#faf7f5',
-        background_color: '#faf7f5',
+        theme_color: '#f7f3e8',
+        background_color: '#f7f3e8',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/',
