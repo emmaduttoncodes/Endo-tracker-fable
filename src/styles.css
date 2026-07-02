@@ -5,13 +5,13 @@
  */
 
 :root {
-  --bg: #f6f1e6;
-  --surface: #fdfaf1;
-  --surface-2: #ede7d6;
+  --bg: #faf7ef;
+  --surface: #fffef9;
+  --surface-2: #f1ecdf;
   --ink: #23253a;
   --ink-2: #605e6b;
   --ink-3: #97938c;
-  --hairline: #e0d9c6;
+  --hairline: #e5dfcf;
   /* indigo ink */
   --accent: #39418f;
   --accent-ink: #fdfaf1;
