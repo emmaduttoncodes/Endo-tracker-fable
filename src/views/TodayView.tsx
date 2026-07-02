@@ -11,7 +11,7 @@ import {
 } from '../db'
 import { addDays, formatLong, todayISO } from '../dates'
 import { cycleStats } from '../cycle'
-import { ChipGroup, Scale, Segmented } from '../components/ui'
+import { BleedingPicker, ChipGroup, Scale } from '../components/ui'
 
 function emptyLog(date: string): DailyLog {
   return {
@@ -124,7 +124,7 @@ export function TodayView({ initialDate }: { initialDate?: string }) {
         <h2>
           Bleeding <span className="hint">period days are derived from this</span>
         </h2>
-        <Segmented<Bleeding>
+        <BleedingPicker<Bleeding>
           options={BLEEDING_LEVELS}
           value={log.bleeding}
           onChange={(bleeding) => update({ bleeding })}

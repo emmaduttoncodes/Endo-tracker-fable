@@ -1,68 +1,67 @@
 /*
- * Hand-drawn stationery look: cornflower-blue ink and sage green on warm
- * cream paper, handwritten display headings, sticker-style card frames.
+ * Editorial stationery: deep indigo ink and dusty rose on warm paper.
+ * Serif mastheads, small-caps section labels, hairline structure —
+ * one signature squiggle, no other ornament.
  */
 
 :root {
-  --bg: #f7f3e8;
-  --surface: #fffdf8;
-  --surface-2: #f1ecdd;
-  --ink: #2b2a33;
-  --ink-2: #66635f;
-  --ink-3: #94907f;
-  --hairline: #e3ddc9;
-  /* cornflower ink */
-  --accent: #4a5ac2;
-  --accent-ink: #fffdf8;
-  --accent-soft: #e7eafa;
-  --accent-line: #aab4e8;
-  /* sage */
-  --sage: #7a9160;
-  --sage-soft: #e6ecd6;
-  --danger: #c14b4b;
-  --good: #4d7c3f;
-  /* chart tokens (validated: #4f63c8 on #fffdf8) */
+  --bg: #f6f1e6;
+  --surface: #fdfaf1;
+  --surface-2: #ede7d6;
+  --ink: #23253a;
+  --ink-2: #605e6b;
+  --ink-3: #97938c;
+  --hairline: #e0d9c6;
+  /* indigo ink */
+  --accent: #39418f;
+  --accent-ink: #fdfaf1;
+  --accent-soft: #e9eaf6;
+  --accent-line: #bcc0dd;
+  /* dusty rose: the only secondary; also the bleeding hue */
+  --rose: #b04a6e;
+  --rose-soft: #f3dee5;
+  --danger: #b3413d;
+  --good: #3f7245;
+  /* chart tokens (validated: #4f63c8 on #fdfaf1) */
   --series-1: #4f63c8;
   --series-1-wash: rgba(79, 99, 200, 0.1);
-  --chart-grid: #e8e2d0;
-  --chart-axis: #cfc8b0;
+  --chart-grid: #e7e1cf;
+  --chart-axis: #cec7af;
   --chart-muted: #8d8878;
-  /* bleeding scale: single-hue ordinal rose ramp (reads as “period” at a glance) */
-  --bleed-1: #f5c6d1;
-  --bleed-2: #e992a9;
-  --bleed-3: #d55c85;
-  --bleed-4: #a93260;
-  --card-shadow: 3px 3px 0 var(--sage-soft);
+  /* bleeding scale: single-hue ordinal rose ramp */
+  --bleed-1: #f2c3ce;
+  --bleed-2: #e28ba3;
+  --bleed-3: #cf5a83;
+  --bleed-4: #a72e5b;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1d1b17;
-    --surface: #26231e;
-    --surface-2: #302c25;
-    --ink: #f0ebdd;
-    --ink-2: #b5af9f;
-    --ink-3: #857f6f;
-    --hairline: #3b372e;
-    --accent: #98a5ec;
-    --accent-ink: #1d1b17;
-    --accent-soft: #2e3046;
-    --accent-line: #4d548c;
-    --sage: #9db184;
-    --sage-soft: #333828;
-    --danger: #e07070;
-    --good: #8bbf75;
-    /* validated: #6d81e0 on #22201c */
+    --bg: #1a1915;
+    --surface: #24221c;
+    --surface-2: #2e2b23;
+    --ink: #eee9dc;
+    --ink-2: #b2ac9d;
+    --ink-3: #837e70;
+    --hairline: #393529;
+    --accent: #9aa4ee;
+    --accent-ink: #1a1915;
+    --accent-soft: #2c2e44;
+    --accent-line: #4b5083;
+    --rose: #d9819f;
+    --rose-soft: #3d2731;
+    --danger: #dd7570;
+    --good: #85b283;
+    /* validated: #6d81e0 on #24221c */
     --series-1: #6d81e0;
     --series-1-wash: rgba(109, 129, 224, 0.16);
-    --chart-grid: #322f28;
-    --chart-axis: #433f34;
+    --chart-grid: #312e25;
+    --chart-axis: #423e31;
     --chart-muted: #8d8878;
-    --bleed-1: #57323d;
-    --bleed-2: #8a3a58;
+    --bleed-1: #55303c;
+    --bleed-2: #883a57;
     --bleed-3: #c04a78;
     --bleed-4: #e884ab;
-    --card-shadow: 3px 3px 0 rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -95,56 +94,59 @@ body {
 
 main {
   flex: 1;
-  padding: 16px 16px calc(84px + env(safe-area-inset-bottom));
+  padding: 20px 18px calc(84px + env(safe-area-inset-bottom));
 }
 
 h1 {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: 27px;
+  font-size: 31px;
   font-weight: 600;
-  line-height: 1.15;
-  color: var(--accent);
-  margin: 8px 0 2px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 10px 0 2px;
 }
 
-/* sage squiggle under the page title, like “progress not perfection” */
+/* the one piece of ornament: a rose squiggle under the masthead */
 h1::after {
   content: '';
   display: block;
-  width: 128px;
-  height: 10px;
-  margin-top: 6px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 10'%3E%3Cpath d='M2 6 Q 10 1 18 6 T 34 6 T 50 6 T 66 6 T 82 6 T 98 6 T 114 6 T 126 6' fill='none' stroke='%237a9160' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  width: 92px;
+  height: 9px;
+  margin-top: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 9'%3E%3Cpath d='M2 5.5 Q 9 1.5 16 5.5 T 30 5.5 T 44 5.5 T 58 5.5 T 72 5.5 T 88 5.5' fill='none' stroke='%23b04a6e' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
 }
 
 @media (prefers-color-scheme: dark) {
   h1::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 10'%3E%3Cpath d='M2 6 Q 10 1 18 6 T 34 6 T 50 6 T 66 6 T 82 6 T 98 6 T 114 6 T 126 6' fill='none' stroke='%239db184' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 9'%3E%3Cpath d='M2 5.5 Q 9 1.5 16 5.5 T 30 5.5 T 44 5.5 T 58 5.5 T 72 5.5 T 88 5.5' fill='none' stroke='%23d9819f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   }
 }
 
+/* section labels: quiet small caps, not another display font moment */
 h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--accent);
-  margin: 0 0 10px;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 12px;
 }
 
 .subtitle {
   color: var(--ink-2);
-  font-size: 14px;
-  margin: 6px 0 16px;
+  font-size: 14.5px;
+  margin: 8px 0 22px;
 }
 
 .card {
   background: var(--surface);
-  border: 1.5px solid var(--accent-line);
-  border-radius: 14px 16px 14px 17px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: var(--card-shadow);
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  padding: 18px 16px 16px;
+  margin-bottom: 14px;
 }
 
 .card h2 {
@@ -155,10 +157,11 @@ h2 {
 }
 
 .hint {
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   color: var(--ink-3);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 /* ---------- bottom nav ---------- */
@@ -171,7 +174,7 @@ nav.tabbar {
   max-width: 640px;
   display: flex;
   background: var(--surface);
-  border-top: 1.5px solid var(--accent-line);
+  border-top: 1px solid var(--hairline);
   padding-bottom: env(safe-area-inset-bottom);
   z-index: 20;
 }
@@ -226,7 +229,7 @@ textarea {
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--hairline);
-  border-radius: 10px;
+  border-radius: 9px;
   padding: 10px 12px;
 }
 
@@ -253,18 +256,48 @@ button:focus-visible {
   font: inherit;
   font-size: 14px;
   padding: 7px 13px;
-  border-radius: 13px 15px 12px 16px / 15px 12px 16px 13px;
-  border: 1.5px solid var(--hairline);
-  background: var(--surface);
+  border-radius: 9px;
+  border: 1px solid var(--hairline);
+  background: transparent;
   color: var(--ink-2);
   cursor: pointer;
 }
 
 .chip.on {
-  background: var(--accent-soft);
+  background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 600;
+}
+
+/* droplet bleeding picker */
+.bleedpicker {
+  display: flex;
+  gap: 6px;
+}
+
+.bleedpicker button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 2px 8px;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 550;
+  color: var(--ink-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  cursor: pointer;
+}
+
+.bleedpicker button.on {
+  border-color: var(--rose);
+  background: var(--rose-soft);
+  color: var(--rose);
+  font-weight: 650;
 }
 
 /* 1–10 scale */
@@ -280,11 +313,11 @@ button:focus-visible {
   font: inherit;
   font-size: 13px;
   font-weight: 550;
-  border: 1.5px solid var(--hairline);
-  background: var(--surface);
+  border: 1px solid var(--hairline);
+  background: transparent;
   color: var(--ink-2);
   cursor: pointer;
-  border-radius: 8px 9px 8px 10px;
+  border-radius: 8px;
 }
 
 .scale button.on {
@@ -303,9 +336,9 @@ button:focus-visible {
   font: inherit;
   font-size: 14px;
   padding: 8px 14px;
-  border-radius: 12px 14px 11px 15px / 14px 11px 15px 12px;
-  border: 1.5px solid var(--hairline);
-  background: var(--surface);
+  border-radius: 9px;
+  border: 1px solid var(--hairline);
+  background: transparent;
   color: var(--ink-2);
   cursor: pointer;
 }
@@ -323,20 +356,19 @@ button.primary {
   background: var(--accent);
   color: var(--accent-ink);
   border: none;
-  border-radius: 13px 15px 12px 16px / 15px 12px 16px 13px;
-  padding: 12px 18px;
+  border-radius: 11px;
+  padding: 13px 18px;
   cursor: pointer;
   width: 100%;
-  box-shadow: var(--card-shadow);
 }
 
 button.ghost {
   font: inherit;
   font-size: 14px;
   background: none;
-  border: 1.5px solid var(--hairline);
+  border: 1px solid var(--hairline);
   color: var(--ink-2);
-  border-radius: 10px 12px 10px 13px;
+  border-radius: 9px;
   padding: 8px 14px;
   cursor: pointer;
 }
@@ -371,7 +403,9 @@ button.ghost.danger {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--hairline);
 }
 
 .datestrip .when {
@@ -380,7 +414,9 @@ button.ghost.danger {
 
 .datestrip .when strong {
   display: block;
-  font-size: 16px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .datestrip .when span {
@@ -389,14 +425,15 @@ button.ghost.danger {
 }
 
 .datestrip button {
-  background: var(--surface);
-  border: 1.5px solid var(--accent-line);
-  border-radius: 10px 12px 10px 13px;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
   width: 40px;
   height: 40px;
   font-size: 18px;
-  color: var(--accent);
+  color: var(--ink-2);
   cursor: pointer;
+  flex: none;
 }
 
 /* ---------- calendar ---------- */
@@ -409,9 +446,9 @@ button.ghost.danger {
 
 .cal-head strong {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--ink);
 }
 
 .cal-grid {
@@ -422,16 +459,17 @@ button.ghost.danger {
 
 .cal-dow {
   text-align: center;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
   color: var(--ink-3);
   padding: 4px 0;
 }
 
 .cal-cell {
   aspect-ratio: 1;
-  border-radius: 10px 11px 10px 12px;
-  border: 1.5px solid transparent;
+  border-radius: 50%;
+  border: 1px solid transparent;
   background: none;
   font: inherit;
   font-size: 13px;
@@ -455,12 +493,12 @@ button.ghost.danger {
 }
 
 .cal-cell.predicted {
-  border: 1.5px dashed var(--bleed-3);
+  border: 1px dashed var(--bleed-3);
 }
 
 .cal-cell .pain-dot {
   position: absolute;
-  bottom: 5px;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
   width: 5px;
@@ -483,7 +521,7 @@ button.ghost.danger {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 12px;
+  margin-top: 14px;
   font-size: 12.5px;
   color: var(--ink-2);
 }
@@ -495,44 +533,52 @@ button.ghost.danger {
 }
 
 .legend-row .swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 4px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
   display: inline-block;
 }
 
-/* stat tiles */
+/* stats: an editorial figures row, not tiles */
 .stat-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 10px;
-  margin-bottom: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0;
+  margin: 4px 0 22px;
 }
 
 .stat {
-  background: var(--surface);
-  border: 1.5px dashed var(--accent-line);
-  border-radius: 13px 15px 12px 16px;
-  padding: 12px 14px;
+  padding: 2px 14px;
+  border-left: 1px solid var(--hairline);
+}
+
+.stat:first-child {
+  border-left: none;
+  padding-left: 0;
 }
 
 .stat .label {
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--sage);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-3);
 }
 
 .stat .value {
-  font-size: 24px;
-  font-weight: 650;
-  margin-top: 2px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 27px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 3px;
+  line-height: 1.1;
 }
 
 .stat .sub {
   font-size: 12px;
   color: var(--ink-3);
+  margin-top: 2px;
 }
 
 /* ---------- charts ---------- */
@@ -584,9 +630,11 @@ table.data td {
 }
 
 table.data th {
-  color: var(--ink-2);
-  font-weight: 600;
-  font-size: 12.5px;
+  color: var(--ink-3);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 table.data td.num,
@@ -598,8 +646,9 @@ table.data th.num {
 /* ---------- medical lists ---------- */
 .subtabs {
   display: flex;
-  gap: 6px;
-  margin-bottom: 14px;
+  gap: 0;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--hairline);
 }
 
 .subtabs button {
@@ -607,18 +656,19 @@ table.data th.num {
   font: inherit;
   font-size: 14px;
   font-weight: 550;
-  padding: 9px 4px;
-  border-radius: 12px 14px 11px 15px / 14px 11px 15px 12px;
-  border: 1.5px solid var(--hairline);
-  background: var(--surface);
-  color: var(--ink-2);
+  padding: 10px 4px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  color: var(--ink-3);
   cursor: pointer;
 }
 
 .subtabs button.on {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-ink);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 650;
 }
 
 .item {
@@ -693,8 +743,8 @@ table.data th.num {
   font-weight: 600;
   padding: 2px 9px;
   border-radius: 999px;
-  background: var(--sage-soft);
-  color: var(--sage);
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .empty {
