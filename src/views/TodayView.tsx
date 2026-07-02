@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import {
   db,
@@ -27,9 +27,11 @@ function emptyLog(date: string): DailyLog {
 
 export function TodayView({ initialDate }: { initialDate?: string }) {
   const [date, setDate] = useState(initialDate ?? todayISO())
-  const [log, setLog] = useState<DailyLog>(emptyLog(date))
-  const [savedAt, setSavedAt] = useState<number | null>(null)
-  const loadedFor = useRef<string | null>(null)
+  // null = still loading this day's entry; the form is not shown until it
+  // resolves, so no tap can ever race the load and be dropped.
+  const [log, setLog] = useState<DailyLog | null>(null)
+  const [status, setStatus] = useState<'idle' | 'saved' | 'error'>('idle')
+  const [storageError, setStorageError] = useState<string | null>(null)
 
   const allLogs = useLiveQuery(() => db.dailyLogs.toArray(), [], [] as DailyLog[])
   const meds = useLiveQuery(() => db.medications.toArray(), [], [])
@@ -37,22 +39,91 @@ export function TodayView({ initialDate }: { initialDate?: string }) {
 
   useEffect(() => {
     let cancelled = false
-    db.dailyLogs.get(date).then((existing) => {
-      if (cancelled) return
-      setLog(existing ?? emptyLog(date))
-      loadedFor.current = date
-      setSavedAt(null)
-    })
+    setLog(null)
+    setStatus('idle')
+    db.dailyLogs
+      .get(date)
+      .then((existing) => {
+        if (!cancelled) setLog(existing ?? emptyLog(date))
+      })
+      .catch((e: unknown) => {
+        if (!cancelled) setStorageError(e instanceof Error ? e.message : String(e))
+      })
     return () => {
       cancelled = true
     }
   }, [date])
 
-  function save(next: DailyLog) {
+  async function save(next: DailyLog) {
     setLog(next)
-    if (loadedFor.current !== date) return
-    void db.dailyLogs.put({ ...next, updatedAt: new Date().toISOString() })
-    setSavedAt(Date.now())
+    try {
+      await db.dailyLogs.put({ ...next, updatedAt: new Date().toISOString() })
+      setStatus('saved')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  const isToday = date === todayISO()
+  const cycleDay =
+    stats.lastPeriodStart && date >= stats.lastPeriodStart
+      ? Math.round(
+          (new Date(date).getTime() - new Date(stats.lastPeriodStart).getTime()) / 86_400_000,
+        ) + 1
+      : null
+
+  const header = (
+    <>
+      <h1>Daily log</h1>
+      <p className="subtitle">A minute a day builds the picture.</p>
+
+      <div className="datestrip">
+        <button type="button" aria-label="Previous day" onClick={() => setDate(addDays(date, -1))}>
+          ‹
+        </button>
+        <div className="when">
+          <strong>{isToday ? 'Today' : formatLong(date)}</strong>
+          <span>
+            {isToday ? formatLong(date) : ''}
+            {cycleDay ? `${isToday ? ' · ' : ''}Cycle day ${cycleDay}` : ''}
+          </span>
+        </div>
+        <button
+          type="button"
+          aria-label="Next day"
+          onClick={() => setDate(addDays(date, 1))}
+          disabled={isToday}
+          style={{ opacity: isToday ? 0.35 : 1 }}
+        >
+          ›
+        </button>
+      </div>
+    </>
+  )
+
+  if (storageError) {
+    return (
+      <>
+        {header}
+        <div className="card">
+          <h2>Storage unavailable</h2>
+          <p className="empty">
+            This browser is blocking local storage, so entries can’t be saved. This usually happens
+            in private browsing or inside another app’s built-in browser — open the app in Safari or
+            Chrome and add it to your home screen instead. ({storageError})
+          </p>
+        </div>
+      </>
+    )
+  }
+
+  if (!log) {
+    return (
+      <>
+        {header}
+        <p className="empty">Loading…</p>
+      </>
+    )
   }
 
   const update = (patch: Partial<DailyLog>) => save({ ...log, ...patch })
@@ -85,40 +156,9 @@ export function TodayView({ initialDate }: { initialDate?: string }) {
     new Set([...currentMeds.map((m) => m.name), ...log.medsTaken]),
   )
 
-  const isToday = date === todayISO()
-  const cycleDay =
-    stats.lastPeriodStart && date >= stats.lastPeriodStart
-      ? Math.round(
-          (new Date(date).getTime() - new Date(stats.lastPeriodStart).getTime()) / 86_400_000,
-        ) + 1
-      : null
-
   return (
     <>
-      <h1>Daily log</h1>
-      <p className="subtitle">A minute a day builds the picture.</p>
-
-      <div className="datestrip">
-        <button type="button" aria-label="Previous day" onClick={() => setDate(addDays(date, -1))}>
-          ‹
-        </button>
-        <div className="when">
-          <strong>{isToday ? 'Today' : formatLong(date)}</strong>
-          <span>
-            {isToday ? formatLong(date) : ''}
-            {cycleDay ? `${isToday ? ' · ' : ''}Cycle day ${cycleDay}` : ''}
-          </span>
-        </div>
-        <button
-          type="button"
-          aria-label="Next day"
-          onClick={() => setDate(addDays(date, 1))}
-          disabled={isToday}
-          style={{ opacity: isToday ? 0.35 : 1 }}
-        >
-          ›
-        </button>
-      </div>
+      {header}
 
       <div className="card">
         <h2>
@@ -209,8 +249,14 @@ export function TodayView({ initialDate }: { initialDate?: string }) {
         />
       </div>
 
-      <p className="saved-note" aria-live="polite">
-        {savedAt ? 'Saved ✓' : ''}
+      <p
+        className="saved-note"
+        aria-live="polite"
+        style={status === 'error' ? { color: 'var(--danger)' } : undefined}
+      >
+        {status === 'saved' && 'Saved ✓'}
+        {status === 'error' &&
+          'Couldn’t save — this browser may be blocking storage (private browsing?)'}
       </p>
     </>
   )

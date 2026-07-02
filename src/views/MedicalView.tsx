@@ -43,8 +43,12 @@ function Appointments() {
 
   async function submit(a: Appointment) {
     if (!a.clinician.trim()) return
-    await db.appointments.put(a)
-    setEditing(null)
+    try {
+      await db.appointments.put(a)
+      setEditing(null)
+    } catch {
+      alert('Couldn’t save — this browser may be blocking storage (private browsing?).')
+    }
   }
 
   return (
@@ -193,8 +197,12 @@ function Labs() {
 
   async function submit(l: LabResult) {
     if (!l.testName.trim()) return
-    await db.labResults.put(l)
-    setEditing(null)
+    try {
+      await db.labResults.put(l)
+      setEditing(null)
+    } catch {
+      alert('Couldn’t save — this browser may be blocking storage (private browsing?).')
+    }
   }
 
   return (
@@ -362,8 +370,12 @@ function Medications() {
 
   async function submit(m: Medication) {
     if (!m.name.trim()) return
-    await db.medications.put(m)
-    setEditing(null)
+    try {
+      await db.medications.put(m)
+      setEditing(null)
+    } catch {
+      alert('Couldn’t save — this browser may be blocking storage (private browsing?).')
+    }
   }
 
   return (

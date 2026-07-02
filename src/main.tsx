@@ -8,6 +8,10 @@ import './styles.css'
 
 registerSW({ immediate: true })
 
+// Ask the browser to protect IndexedDB from storage-pressure eviction —
+// this is the user's only copy of their health data.
+navigator.storage?.persist?.().catch(() => {})
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
